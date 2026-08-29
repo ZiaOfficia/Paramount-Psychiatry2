@@ -733,3 +733,10 @@ export const conditions = {
     },
   },
 };
+
+// Bullet titles from a category's "Areas We Commonly Address" section.
+// The overview grid's per-card dropdown reads from here so the card list and
+// the detail page's own section are rendered from one source and can't drift.
+export function getAreaTitles(slug) {
+  return conditions[slug]?.areas?.items?.map((item) => item.title) ?? [];
+}
