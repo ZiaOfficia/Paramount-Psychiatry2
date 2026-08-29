@@ -24,11 +24,14 @@ export default function Navbar() {
   const shouldReduceMotion = useReducedMotion();
   const navRef = useRef(null);
 
+  // Close every menu on navigation. Keyed on location.key rather than
+  // pathname so that tapping the page you're already on still closes the
+  // mobile menu instead of leaving it open over the page.
   useEffect(() => {
     setOpen(false);
     setOpenMegaMenu(null);
     setOpenMobileMenu(null);
-  }, [location.pathname]);
+  }, [location.key]);
 
   useEffect(() => {
     function onScroll() {
