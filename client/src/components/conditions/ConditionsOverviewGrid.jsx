@@ -1,78 +1,59 @@
 import { useState } from 'react';
-<<<<<<< HEAD
-import { motion, useReducedMotion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { ArrowRight, ChevronDown } from 'lucide-react';
-import Section from '../ui/Section';
-import SectionHeading from '../ui/SectionHeading';
-import { conditionCategories, getAreaTitles } from '../../data/conditions';
-=======
+
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { Link } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import Section from '../ui/Section';
 import SectionHeading from '../ui/SectionHeading';
 import { conditionCategories, conditions } from '../../data/conditions';
->>>>>>> c7a16fa0efc6a6d9bd054e7fe1e0a5e30bf5c4b4
 import { staggerContainer, fadeUp } from '../../lib/motion';
 import { cn } from '../../lib/cn';
 
-// One heading row per category. Hovering (desktop) or tapping/clicking
-// (touch, and as an explicit toggle everywhere) reveals a dropdown listing
-// that category's "Areas We Commonly Address" — each item links straight to
-// the category's /conditions/:slug page. Mirrors the open/close pattern
-// already used by the Navbar's mega menu (hover + click both toggle the
-// same state) so behavior stays consistent across the site.
-function AreaRow({ category }) {
-  const [open, setOpen] = useState(false);
+// One heading row per category. The arrow is the only control that opens the
+// in-page list; category names and area names are intentionally non-navigating.
+function AreaRow({ category, open, onToggle }) {
   const shouldReduceMotion = useReducedMotion();
   const areas = conditions[category.slug]?.areas?.items ?? [];
+  const panelId = `areas-${category.slug}-panel`;
 
   return (
     <div
-      className="relative"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-      onBlur={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false);
-      }}
+      className={cn(
+        'relative bg-white',
+        !open && 'border-b border-border',
+      )}
     >
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-haspopup="true"
-        onClick={() => setOpen((v) => !v)}
-        className={cn(
-          'flex w-full items-center justify-between gap-3 rounded-(--radius-card) border border-border bg-white px-5 py-4 text-left shadow-soft transition-all duration-300 ease-calm hover:shadow-elevated',
-          open && 'shadow-elevated',
-        )}
-      >
+      <div className="flex w-full items-center justify-between gap-3 px-5 py-4">
         <span className="text-h4 text-navy-deep">{category.title}</span>
-        <ChevronDown
-          size={18}
-          aria-hidden="true"
-          className={cn('shrink-0 text-sage-deep transition-transform duration-300 ease-calm', open && 'rotate-180')}
-        />
-      </button>
+        <button
+          type="button"
+          aria-label={`${open ? 'Collapse' : 'Expand'} ${category.title}`}
+          aria-expanded={open}
+          aria-controls={panelId}
+          onClick={onToggle}
+          className="shrink-0 p-1 text-sage-deep transition-colors duration-300 ease-calm hover:text-navy"
+        >
+          <ChevronDown
+            size={18}
+            aria-hidden="true"
+            className={cn('transition-transform duration-300 ease-calm', open && 'rotate-180')}
+          />
+        </button>
+      </div>
 
       <AnimatePresence>
         {open && areas.length > 0 && (
           <motion.div
-            initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 8 }}
+            id={panelId}
+            initial={shouldReduceMotion ? false : { height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={shouldReduceMotion ? { height: 0, opacity: 0 } : { height: 0, opacity: 0 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute left-0 right-0 top-full z-20 mt-2 max-h-80 overflow-y-auto rounded-(--radius-card) border border-border bg-white p-2 shadow-elevated"
+            className="absolute left-0 right-0 top-full z-40 max-h-80 overflow-y-auto border-b border-border bg-inherit px-5 pb-4 pt-1 shadow-[0_8px_16px_-6px_rgba(23,50,77,0.18),6px_6px_12px_-8px_rgba(23,50,77,0.12),-6px_6px_12px_-8px_rgba(23,50,77,0.12)]"
           >
             <ul className="flex flex-col">
               {areas.map((area) => (
                 <li key={area.title}>
-                  <Link
-                    to={`/conditions/${category.slug}`}
-                    className="block rounded-lg px-3 py-2 text-body-sm text-charcoal transition-colors hover:bg-navy/5 hover:text-navy"
-                  >
-                    {area.title}
-                  </Link>
+                  <span className="block py-1 text-body-sm text-charcoal">{area.title}</span>
                 </li>
               ))}
             </ul>
@@ -83,86 +64,9 @@ function AreaRow({ category }) {
   );
 }
 
-// Collapsible "Areas We Commonly Address" list inside a category card. Same
-// disclosure mechanics as FAQAccordion: labelled trigger, panel made inert
-// when closed, grid-rows transition so there's no fixed-height guesswork.
-// `tone="dark"` is the navy featured card.
-function AreasDisclosure({ slug, titles, isOpen, onToggle, tone = 'light' }) {
-  const panelId = `areas-${slug}-panel`;
-  const buttonId = `areas-${slug}-trigger`;
-  const dark = tone === 'dark';
-
-  if (titles.length === 0) return null;
-
-  return (
-    <div className={cn('border-t pt-3', dark ? 'border-white/15' : 'border-border')}>
-      <button
-        type="button"
-        id={buttonId}
-        aria-expanded={isOpen}
-        aria-controls={panelId}
-        onClick={onToggle}
-        className={cn(
-          'flex w-full items-center justify-between gap-3 text-left text-body-sm font-semibold transition-colors',
-          dark ? 'text-white hover:text-sage' : 'text-navy-deep hover:text-navy',
-        )}
-      >
-        <span>
-          Areas We Commonly Address
-          <span className={cn('ml-1.5 font-normal', dark ? 'text-white/60' : 'text-muted')}>({titles.length})</span>
-        </span>
-        <ChevronDown
-          size={16}
-          aria-hidden="true"
-          className={cn(
-            'shrink-0 transition-transform duration-300 ease-calm',
-            isOpen && 'rotate-180',
-            dark ? 'text-sage' : 'text-sage-deep',
-          )}
-        />
-      </button>
-
-      <div
-        id={panelId}
-        role="region"
-        aria-labelledby={buttonId}
-        inert={!isOpen}
-        className={cn(
-          'grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-calm',
-          isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
-        )}
-      >
-        <div className="min-h-0">
-          <ul className="flex flex-col gap-1.5 pt-3">
-            {titles.map((title) => (
-              <li key={title} className={cn('flex gap-2.5 text-body-sm', dark ? 'text-white/75' : 'text-muted')}>
-                <span
-                  className={cn('mt-1.5 h-1 w-1 shrink-0 rounded-full', dark ? 'bg-sage' : 'bg-sage-deep')}
-                  aria-hidden="true"
-                />
-                {title}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function ConditionsOverviewGrid() {
   const shouldReduceMotion = useReducedMotion();
-  // Multiple cards may be open at once — visitors compare categories.
-  const [openSlugs, setOpenSlugs] = useState(() => new Set());
-
-  function toggle(slug) {
-    setOpenSlugs((prev) => {
-      const next = new Set(prev);
-      if (next.has(slug)) next.delete(slug);
-      else next.add(slug);
-      return next;
-    });
-  }
+  const [openSlug, setOpenSlug] = useState(null);
 
   return (
     <Section spacing="md" background="white">
@@ -180,95 +84,20 @@ export default function ConditionsOverviewGrid() {
           />
         </motion.div>
 
-<<<<<<< HEAD
-        {/* Featured category — Comprehensive Psychiatric Services is the foundation every plan builds on. */}
-        <motion.div variants={fadeUp}>
-          <div className="relative flex flex-col gap-5 overflow-hidden rounded-(--radius-card) bg-navy-deep p-8 text-white shadow-elevated md:p-10">
-            <div
-              className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-[58%_42%_36%_64%/60%_38%_62%_40%] bg-white/5"
-              aria-hidden="true"
-            />
-            <div className="relative flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-8">
-              <div className="flex items-start gap-5">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/10">
-                  <featured.icon size={22} strokeWidth={1.5} aria-hidden="true" />
-                </span>
-                <div className="flex flex-col gap-2">
-                  <span className="text-eyebrow uppercase text-sage font-semibold">Where Every Plan Begins</span>
-                  <h3 className="text-h3 text-white">
-                    <Link to={`/conditions/${featured.slug}`} className="transition-colors hover:text-sage">
-                      {featured.title}
-                    </Link>
-                  </h3>
-                  <p className="text-body-sm text-white/70 max-w-md">{featured.description}</p>
-                </div>
-              </div>
-              <Link
-                to={`/conditions/${featured.slug}`}
-                className="group inline-flex shrink-0 items-center gap-1.5 self-start text-body-sm font-semibold text-white md:self-auto"
-              >
-                Learn More
-                <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-              </Link>
-            </div>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {conditionCategories.map((category) => {
+            const open = openSlug === category.slug;
 
-            <div className="relative">
-              <AreasDisclosure
-                slug={featured.slug}
-                titles={getAreaTitles(featured.slug)}
-                isOpen={openSlugs.has(featured.slug)}
-                onToggle={() => toggle(featured.slug)}
-                tone="dark"
-              />
-            </div>
-          </div>
-        </motion.div>
-
-        {/* items-start so expanding one card doesn't stretch every card in its row. */}
-        <div className="grid grid-cols-1 items-start gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {rest.map((category, index) => {
-            const iconStyle = iconStyles[index % iconStyles.length];
             return (
-              <motion.div key={category.slug} variants={fadeUp}>
-                <div className="group flex flex-col gap-4 rounded-(--radius-card) border border-border bg-white p-6 shadow-soft transition-shadow duration-300 ease-calm hover:shadow-elevated">
-                  <span className={cn('flex h-11 w-11 items-center justify-center rounded-full', iconStyle.bg, iconStyle.text)}>
-                    <category.icon size={20} strokeWidth={1.5} aria-hidden="true" />
-                  </span>
-                  <div className="flex flex-col gap-1.5">
-                    <h3 className="text-h4 text-navy-deep">
-                      <Link to={`/conditions/${category.slug}`} className="transition-colors hover:text-navy">
-                        {category.title}
-                      </Link>
-                    </h3>
-                    <p className="text-body-sm text-muted">{category.description}</p>
-                  </div>
-
-                  <AreasDisclosure
-                    slug={category.slug}
-                    titles={getAreaTitles(category.slug)}
-                    isOpen={openSlugs.has(category.slug)}
-                    onToggle={() => toggle(category.slug)}
-                  />
-
-                  <Link
-                    to={`/conditions/${category.slug}`}
-                    className="inline-flex items-center gap-1.5 text-body-sm font-semibold text-navy"
-                  >
-                    Learn More
-                    <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
-                  </Link>
-                </div>
-              </motion.div>
+            <motion.div key={category.slug} variants={fadeUp} className={cn('relative', open && 'z-30')}>
+              <AreaRow
+                category={category}
+                open={open}
+                onToggle={() => setOpenSlug((current) => (current === category.slug ? null : category.slug))}
+              />
+            </motion.div>
             );
           })}
-=======
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {conditionCategories.map((category) => (
-            <motion.div key={category.slug} variants={fadeUp}>
-              <AreaRow category={category} />
-            </motion.div>
-          ))}
->>>>>>> c7a16fa0efc6a6d9bd054e7fe1e0a5e30bf5c4b4
         </div>
       </motion.div>
     </Section>

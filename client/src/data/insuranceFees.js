@@ -75,16 +75,15 @@ export const insuranceFeesSections = [
     heading: 'Self-Pay Fees',
     paragraphs: [
       'Patients who do not have insurance coverage or prefer not to use their insurance are welcome to schedule appointments using our transparent self-pay rates.',
-      'Service | Fee',
     ],
-    bullets: [
-      'Initial Comprehensive Psychiatric Evaluation (60 minutes) | $410',
-      'Follow-Up Medication Management (30 minutes) | $210',
-      'Extended Follow-Up Visit (45 minutes) | $310',
+    feeRows: [
+      { service: 'Initial Comprehensive Psychiatric Evaluation', time: '60 minutes', fee: '$410' },
+      { service: 'Follow-Up Medication Management', time: '30 minutes', fee: '$210' },
+      { service: 'Extended Follow-Up Visit', time: '45 minutes', fee: '$310' },
     ],
     closingParagraphs: [
       'Payment is due at the time of service and is collected via Headway.',
-      'Please note that we cannot accept patients with Medicaid/Medicare as self pay patients at this time.',
     ],
+    highlightedNote: 'Please note that we cannot accept patients with Medicaid/Medicare as self pay patients at this time.',
   },
 ];

@@ -21,33 +21,33 @@ export default function Introduction() {
             <span className="text-eyebrow uppercase text-sage-deep font-semibold">{introduction.eyebrow}</span>
             <h2 className="text-h2 mt-3">{introduction.heading}</h2>
           </div>
-          <div className="lg:col-span-7 flex flex-col gap-5">
-            {introduction.body.map((paragraph) => (
-              <p key={paragraph} className="text-body-lg text-muted">
-                {paragraph}
-              </p>
-            ))}
+          <div className="lg:col-span-7 flex flex-col gap-10">
+            <div className="flex flex-col gap-5">
+              {introduction.body.map((paragraph) => (
+                <p key={paragraph} className="text-body-lg text-muted">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+
+            <Button to={introduction.ctaLink} variant="outline" className="self-start">
+              {introduction.cta}
+            </Button>
+
+            <motion.div
+              initial={shouldReduceMotion ? false : 'hidden'}
+              whileInView="visible"
+              viewport={{ once: true, margin: '-80px' }}
+              variants={staggerContainer}
+              className="grid grid-cols-1 gap-6 sm:grid-cols-2"
+            >
+              {introduction.values.map(({ title }) => (
+                <motion.h3 key={title} variants={fadeUp} className="text-h4 font-semibold">
+                  {title}
+                </motion.h3>
+              ))}
+            </motion.div>
           </div>
-        </div>
-
-        <Button to={introduction.ctaLink} variant="outline" className="mx-auto">
-          {introduction.cta}
-        </Button>
-
-        <div className="border-t border-border pt-10">
-          <motion.div
-            initial={shouldReduceMotion ? false : 'hidden'}
-            whileInView="visible"
-            viewport={{ once: true, margin: '-80px' }}
-            variants={staggerContainer}
-            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {introduction.values.map(({ title }) => (
-              <motion.h3 key={title} variants={fadeUp} className="text-h4 font-semibold">
-                {title}
-              </motion.h3>
-            ))}
-          </motion.div>
         </div>
       </motion.div>
     </Section>

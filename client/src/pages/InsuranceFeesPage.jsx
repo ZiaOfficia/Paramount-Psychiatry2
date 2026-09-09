@@ -37,12 +37,41 @@ function InfoSection({ section, index }) {
               </ul>
             )}
 
+            {section.feeRows && (
+              <div className="overflow-x-auto rounded-lg border border-border">
+                <table className="w-full min-w-[32rem] border-collapse text-left text-body-lg">
+                  <thead className="bg-sage-soft">
+                    <tr className="border-b-2 border-border text-navy-deep">
+                      <th scope="col" className="border-r border-border px-4 py-3 font-semibold">Service</th>
+                      <th scope="col" className="border-r border-border px-4 py-3 font-semibold">Time</th>
+                      <th scope="col" className="px-4 py-3 text-right font-semibold">Fee</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {section.feeRows.map((row) => (
+                      <tr key={row.service} className="border-b border-border text-muted">
+                        <td className="border-r border-border px-4 py-3">{row.service}</td>
+                        <td className="whitespace-nowrap border-r border-border px-4 py-3">{row.time}</td>
+                        <td className="whitespace-nowrap px-4 py-3 text-right text-navy-deep">{row.fee}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
             {section.closingParagraphs &&
               section.closingParagraphs.map((paragraph, paragraphIndex) => (
                 <p key={`${section.heading}-closing-${paragraphIndex}`} className="text-body-lg text-muted">
                   {paragraph}
                 </p>
               ))}
+
+            {section.highlightedNote && (
+              <p className="border-l-4 border-gold bg-ivory px-4 py-3 text-body-lg font-medium text-navy-deep">
+                {section.highlightedNote}
+              </p>
+            )}
           </div>
         </div>
       </div>

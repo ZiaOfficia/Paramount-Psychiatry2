@@ -59,7 +59,7 @@ export default function ResourceGrid({ items }) {
                     aria-hidden="true"
                   />
                 </span>
-                <p className="text-body-sm text-muted">{item.description}</p>
+                {item.description && <p className="text-body-sm text-muted">{item.description}</p>}
               </div>
             </Link>
           </motion.div>
