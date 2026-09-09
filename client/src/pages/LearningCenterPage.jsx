@@ -18,7 +18,6 @@ export default function LearningCenterPage() {
   return (
     <>
       <PageHero
-        eyebrow={learningCenterHero.eyebrow}
         title={learningCenterHero.title}
         intro={learningCenterHero.intro}
         crumbs={[{ label: 'Home', path: '/' }, { label: 'Mental Health Learning Center' }]}

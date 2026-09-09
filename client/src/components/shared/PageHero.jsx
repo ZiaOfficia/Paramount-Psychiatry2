@@ -12,7 +12,17 @@ import { fadeUp } from '../../lib/motion';
 // scene for informational pages; callers with a more specific theme
 // (Appointment, Practice Policies, Services) pass their own variant.
 // `sketch`: Optional path to a sketch image to display instead of HeroBloom.
-export default function PageHero({ eyebrow, title, intro, crumbs, illustration = 'openSky', sketch }) {
+// `sketchClassName`: Overrides the sketch image's size (default max-w-sm) —
+// for callers whose artwork should render larger than the shared default.
+export default function PageHero({
+  eyebrow,
+  title,
+  intro,
+  crumbs,
+  illustration = 'openSky',
+  sketch,
+  sketchClassName = 'max-w-sm',
+}) {
   const shouldReduceMotion = useReducedMotion();
 
   return (
@@ -45,7 +55,7 @@ export default function PageHero({ eyebrow, title, intro, crumbs, illustration =
             initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="hidden h-auto w-full max-w-sm lg:col-span-5 lg:block"
+            className={`hidden h-auto w-full ${sketchClassName} lg:col-span-5 lg:block`}
           />
         ) : (
           <HeroBloom variant={illustration} className="hidden lg:col-span-5 lg:block" />

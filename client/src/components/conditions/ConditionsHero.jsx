@@ -40,7 +40,7 @@ export default function ConditionsHero() {
           initial={shouldReduceMotion ? false : { opacity: 0, scale: 0.96 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="hidden h-auto w-full lg:col-span-5 lg:-ml-36 lg:block"
+          className="hidden h-auto w-full lg:col-span-5 lg:-ml-20 lg:block"
         />
       </div>
     </Section>

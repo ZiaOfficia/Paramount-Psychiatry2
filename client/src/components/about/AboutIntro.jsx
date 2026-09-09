@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from 'framer-motion';
 import Section from '../ui/Section';
-import { aboutIntro } from '../../data/aboutPage';
+import { aboutIntro } from '../../data/aboutPage'; 
 import { fadeUp, staggerContainer } from '../../lib/motion';
 
 export default function AboutIntro() {

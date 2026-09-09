@@ -1,80 +1,90 @@
-// Insurance & Fees — content data (Phase 6).
-// No invented insurer names, fees, reimbursement amounts, or legal claims.
-// Where exact figures aren't supplied, copy points patients to contact the
-// practice directly rather than guessing.
-
-import site from './site';
-
 export const insuranceFeesSeo = {
   title: 'Insurance & Fees | Paramount Psychiatry',
   description:
-    'Clear information about insurance, out-of-network benefits, self-pay fees, and the Good Faith Estimate at Paramount Psychiatry.',
+    'Insurance and fee information for psychiatric care at Paramount Psychiatry.',
 };
 
 export const insuranceFeesHero = {
-  eyebrow: 'Insurance & Fees',
-  title: 'Clear information about coverage and costs.',
-  intro:
-    'Understanding your coverage and costs is an important part of preparing for care. This page explains, in plain terms, how insurance, self-pay, and out-of-network benefits generally work at Paramount Psychiatry.',
+  title: 'Insurance & Fees',
 };
 
-export const insuranceSection = {
-  heading: 'Insurance',
-  paragraphs: [
-    'Insurance coverage for psychiatric care varies by plan, employer, and individual policy. Paramount Psychiatry works with Headway to help make insurance-based appointments more straightforward — when you request an appointment through Headway, you can see which plans are currently accepted before booking.',
-    'Because coverage details differ from plan to plan, we recommend confirming your specific benefits — including copays, deductibles, and any authorization requirements — directly with your insurance carrier before your visit.',
-  ],
-};
-
-export const feesSection = {
-  heading: 'Fees & Self-Pay',
-  paragraphs: [
-    'Patients who prefer to pay directly, or whose plan is not in network, are welcome to be seen on a self-pay basis. Current self-pay fees are available by contacting the practice directly.',
-  ],
-  cta: { label: 'Contact Us for Current Fee Information', to: '/contact' },
-};
-
-export const outOfNetworkSection = {
-  heading: 'Out-of-Network Information',
-  paragraphs: [
-    'Depending on your plan, you may have out-of-network benefits that can help offset the cost of care. Reimbursement, if any, depends entirely on your individual policy.',
-    'We recommend contacting your insurer directly to verify out-of-network eligibility, reimbursement rates, deductibles, copays or coinsurance, and any documentation your plan requires (such as a superbill) before your visit. Paramount Psychiatry cannot guarantee reimbursement, as this is determined solely by your insurance carrier.',
-  ],
-};
-
-export const goodFaithEstimateSection = {
-  heading: 'Good Faith Estimate',
-  paragraphs: [
-    'Under federal law, health care providers must give patients who are not using insurance an estimate of expected charges for services, known as a Good Faith Estimate.',
-    'This page provides general information only and is not a substitute for your personalized estimate. Please contact the practice directly to request a Good Faith Estimate or to ask questions about this process.',
-  ],
-};
-
-export const paymentFaqs = {
-  heading: 'Payment Questions',
-  items: [
-    {
-      question: 'Do you accept insurance?',
-      answer:
-        'Insurance acceptance depends on your specific plan. Appointments booked through Headway will show which plans are currently accepted.',
-    },
-    {
-      question: 'How can I find out whether my plan is accepted?',
-      answer:
-        'The clearest way is to check available plans when requesting an appointment through Headway, or to contact the practice directly with your insurance details.',
-    },
-    {
-      question: 'What if I have out-of-network benefits?',
-      answer:
-        'You may be able to use out-of-network benefits depending on your plan. We recommend verifying eligibility, reimbursement, and any required documentation with your insurer before your visit.',
-    },
-    {
-      question: 'How do self-pay appointments work?',
-      answer: 'Self-pay is available for patients who prefer to pay directly. Contact the practice for current fee information.',
-    },
-    {
-      question: 'Who should I contact about billing questions?',
-      answer: `For billing questions, please contact the practice directly at ${site.phone} or ${site.email}.`,
-    },
-  ],
-};
+export const insuranceFeesSections = [
+  {
+    heading: 'Insurance Plans Accepted',
+    paragraphs: [
+      'At Paramount Psychiatry, mental health care provided through insurance as well as self-pay.',
+      'We are in-network with many major commercial insurance plans, including:',
+    ],
+    bullets: [
+      'Aetna',
+      'Cigna',
+      'Horizon Blue Cross Blue Shield of New Jersey',
+      'UnitedHealthcare (Optum)',
+      'Oxford Health Plans (Optum)',
+      'Oscar Health (Optum)',
+      'Anthem Blue Cross Blue Shield',
+      'Blue Cross Blue Shield of Massachusetts',
+      'Additional commercial insurance plans may also be accepted.',
+    ],
+    closingParagraphs: [
+      'Because insurance networks and individual plan benefits change periodically, we encourage you to verify your specific coverage and mental health benefits before scheduling your appointment.',
+      'Please note: At this time, we do NOT participate in Medicare, Medicaid, or Medicare Advantage plans.',
+    ],
+  },
+  {
+    heading: 'Insurance Verification',
+    paragraphs: [
+      'We partner with Headway to manage all financial aspects of the visit. Headway verifies insurance benefits and manages billing, claims, collection of payments and any insurance related concerns should they arise. Paramount psychiatry or the provider do not directly bill, manage claims or payments and do have direct access to payment information and does not assume responsibility for any claim or payment related matters.',
+      'Please keep in mind:',
+    ],
+    bullets: [
+      'Insurance benefits vary significantly between plans—even within the same insurance company.',
+      'Your mental health benefits may include:',
+    ],
+    nestedBullets: [
+      'Deductibles',
+      'Copayments',
+      'Coinsurance',
+      'Prior authorization requirements',
+      'Visit limitations',
+      'Out-of-network benefits',
+      'Coverage exclusions',
+      'Or other limitations/exceptions',
+    ],
+    closingParagraphs: [
+      'For this reason, we strongly encourage patients to contact their insurance carrier before their appointment to understand their individual behavioral health benefits and any potential out-of-pocket costs.',
+      'Ultimately, patients are responsible for understanding their insurance coverage and any financial responsibility associated with their plan.',
+    ],
+  },
+  {
+    heading: 'Billing & Claims',
+    paragraphs: ['Headway will:'],
+    bullets: [
+      'Verify your insurance eligibility',
+      'Provide a cost/copay estimate',
+      'Process insurance claims',
+      'Collect applicable copayments or coinsurance',
+      'Provide billing statements',
+      'Process self-pay payments when applicable',
+      'This partnership allows our practice to focus on delivering exceptional psychiatric care while ensuring a streamlined billing experience for our patients.',
+      'Please note that insurance verification is an ESTIMATE of benefits and is not a guarantee of payment by your insurance carrier. This may be subject to adjustment based on your insurance coverage once the claim has been processed',
+      'The practice/provider do not bill or collect payments directly from patients',
+    ],
+  },
+  {
+    heading: 'Self-Pay Fees',
+    paragraphs: [
+      'Patients who do not have insurance coverage or prefer not to use their insurance are welcome to schedule appointments using our transparent self-pay rates.',
+      'Service | Fee',
+    ],
+    bullets: [
+      'Initial Comprehensive Psychiatric Evaluation (60 minutes) | $410',
+      'Follow-Up Medication Management (30 minutes) | $210',
+      'Extended Follow-Up Visit (45 minutes) | $310',
+    ],
+    closingParagraphs: [
+      'Payment is due at the time of service and is collected via Headway.',
+      'Please note that we cannot accept patients with Medicaid/Medicare as self pay patients at this time.',
+    ],
+  },
+];
