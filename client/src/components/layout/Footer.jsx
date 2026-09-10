@@ -13,7 +13,7 @@ export default function Footer() {
   return (
     <footer className="bg-navy-deep text-white">
       {/* Emergency notice — calm, informational, not alarming */}
-      <div className="border-b border-white/10 bg-white/5">
+      <div className="border-b border-white/10 bg-disclaimer">
         <Container className="py-3">
           <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-caption text-white/70">
             <Info size={14} className="shrink-0 text-white/50" aria-hidden="true" />

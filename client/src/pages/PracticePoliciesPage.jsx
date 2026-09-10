@@ -30,7 +30,7 @@ export default function PracticePoliciesPage() {
           subparagraphs2={section.subparagraphs2}
           finalParagraph={section.finalParagraph}
           link={section.link}
-          background={index % 2 === 1 ? 'ivory' : 'white'}
+          background={['white', 'warm', 'sage-soft', 'blue-soft'][index % 4]}
         />
       ))}
     </>

@@ -72,7 +72,7 @@ export default function ContactPage() {
         </div>
       </Section>
 
-      <Section spacing="md" background="ivory">
+      <Section spacing="md" background="warm">
         <div className="grid grid-cols-1 items-start gap-10 md:grid-cols-[2fr_3fr] lg:gap-16">
           <div className="min-w-0">
             <SectionHeading eyebrow="Get In Touch" title="Send a Message" description="Prefer to write? Send a message and we'll follow up." />

@@ -4,10 +4,11 @@ import { usePageMeta } from '../hooks/usePageMeta';
 import { insuranceFeesSeo, insuranceFeesHero, insuranceFeesSections } from '../data/insuranceFees';
 
 function InfoSection({ section, index }) {
-  const isIvory = index % 2 === 1;
-
   return (
-    <Section spacing="md" background={isIvory ? 'ivory' : 'white'}>
+    <Section
+      spacing="md"
+      background={['white', 'warm', 'sage-soft', 'blue-soft'][index % 4]}
+    >
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-5">
           <h2 className="text-h2">{section.heading}</h2>

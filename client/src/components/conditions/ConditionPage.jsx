@@ -72,7 +72,7 @@ export default function ConditionPage({ data, parent = { label: 'Conditions We T
       )}
 
       {areas?.items?.length > 0 && (
-        <Section spacing="md" background="warm">
+        <Section spacing="md" background="sage-soft">
           <motion.div
             initial={shouldReduceMotion ? false : 'hidden'}
             animate="visible"
@@ -102,7 +102,7 @@ export default function ConditionPage({ data, parent = { label: 'Conditions We T
       )}
 
       {audience?.items?.length > 0 && (
-        <Section spacing="md" background="sage-soft">
+        <Section spacing="md" background="white">
           <motion.div
             initial={shouldReduceMotion ? false : 'hidden'}
             whileInView="visible"
@@ -189,7 +189,7 @@ export default function ConditionPage({ data, parent = { label: 'Conditions We T
       )}
 
       {related?.length > 0 && (
-        <Section spacing="md" background="warm">
+        <Section spacing="md" background="white">
           <motion.div
             initial={shouldReduceMotion ? false : 'hidden'}
             animate="visible"

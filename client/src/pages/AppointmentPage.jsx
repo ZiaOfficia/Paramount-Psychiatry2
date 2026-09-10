@@ -48,7 +48,7 @@ export default function AppointmentPage() {
         </div>
       </Section>
 
-      <Section spacing="sm" background="white">
+      <Section spacing="sm" background="sage-soft">
         <div className="flex gap-3 rounded-(--radius-card) border border-border bg-sage-soft/60 p-5 md:p-6 max-w-3xl">
           <Info size={20} className="shrink-0 text-sage-deep" aria-hidden="true" />
           <p className="text-body-sm text-charcoal">{emergencyDisclaimer}</p>
