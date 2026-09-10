@@ -15,7 +15,7 @@ export default function CoreValues() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <Section spacing="lg" background="white">
+    <Section spacing="lg" background="sage-soft">
       <div className="flex flex-col gap-12">
         <SectionHeading align="center" title="Our Core Values" />
 

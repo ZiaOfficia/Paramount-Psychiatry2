@@ -41,7 +41,7 @@ export default function AppointmentPage() {
         </div>
       </Section>
 
-      <Section spacing="md" background="ivory">
+      <Section spacing="md" background="warm">
         <div className="flex flex-col gap-6 max-w-2xl">
           <SectionHeading title="Have a Question First?" description="Send a message to the practice and we'll follow up." />
           <AppointmentForm />

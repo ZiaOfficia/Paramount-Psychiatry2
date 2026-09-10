@@ -28,7 +28,7 @@ export default function WhatToExpectPage() {
         background="white"
       />
 
-      <Section spacing="md" background="ivory">
+      <Section spacing="md" background="warm">
         <div className="flex flex-col gap-8">
           <SectionHeading title="Related Resources" maxWidth="max-w-2xl" />
           <ResourceGrid items={related} />

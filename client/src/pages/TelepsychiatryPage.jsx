@@ -48,7 +48,7 @@ export default function TelepsychiatryPage() {
         </motion.div>
       </Section>
 
-      <Section spacing="md" background="ivory">
+      <Section spacing="md" background="warm">
         <div className="flex flex-col gap-6 max-w-2xl">
           <SectionHeading title={telepsychiatryChecklist.heading} maxWidth="max-w-2xl" />
           <CheckList items={telepsychiatryChecklist.items} />
@@ -62,7 +62,7 @@ export default function TelepsychiatryPage() {
         </div>
       </Section>
 
-      <Section spacing="md" background="ivory">
+      <Section spacing="md" background="sage-soft">
         <div className="flex flex-col gap-8">
           <SectionHeading title="Related Resources" maxWidth="max-w-2xl" />
           <ResourceGrid items={related} />

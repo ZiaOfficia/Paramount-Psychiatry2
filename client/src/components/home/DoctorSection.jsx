@@ -5,10 +5,9 @@ import { doctor } from '../../data/home';
 import { fadeUp } from '../../lib/motion';
 
 // Mirrors <Introduction />'s two-column "Our Approach" layout — eyebrow +
-// heading in the left column, supporting copy in the right column, a
-// centered outline CTA below, and the same bottom divider treatment — so
-// this section reads as a continuation of the same pattern rather than a
-// standalone design.
+// heading in the left column, supporting copy in the right column, and a
+// centered outline CTA below — so this section reads as a continuation of
+// the same pattern rather than a standalone design.
 export default function DoctorSection() {
   const shouldReduceMotion = useReducedMotion();
 
@@ -35,11 +34,9 @@ export default function DoctorSection() {
           </div>
         </div>
 
-        <Button to={doctor.ctaLink} variant="outline" className="mx-auto">
+        <Button to={doctor.ctaLink} variant="outline" className="mx-auto no-underline">
           {doctor.cta}
         </Button>
-
-        <div className="border-t border-border pt-10" aria-hidden="true" />
       </motion.div>
     </Section>
   );

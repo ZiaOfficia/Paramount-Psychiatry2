@@ -4,14 +4,14 @@ import { whyParamount } from '../../data/aboutPage';
 import { fadeUp } from '../../lib/motion';
 
 // Mirrors <Introduction />'s two-column "Our Approach" layout — eyebrow +
-// heading in the left column, supporting copy in the right column, and the
-// same bottom divider treatment — so this section reads as a continuation
-// of the same pattern rather than a standalone design.
+// heading in the left column and supporting copy in the right column — so
+// this section reads as a continuation of the same pattern rather than a
+// standalone design.
 export default function WhyParamount() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <Section spacing="lg" background="white">
+    <Section spacing="lg" background="blue-soft">
       <motion.div
         initial={shouldReduceMotion ? false : 'hidden'}
         whileInView="visible"
@@ -32,8 +32,6 @@ export default function WhyParamount() {
             ))}
           </div>
         </div>
-
-        <div className="border-t border-border pt-10" aria-hidden="true" />
       </motion.div>
     </Section>
   );

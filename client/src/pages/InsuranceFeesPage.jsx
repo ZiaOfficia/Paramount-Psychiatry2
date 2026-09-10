@@ -16,7 +16,12 @@ function InfoSection({ section, index }) {
         <div className="lg:col-span-7">
           <div className="flex flex-col gap-5">
             {section.paragraphs.map((paragraph, paragraphIndex) => (
-              <p key={`${section.heading}-p-${paragraphIndex}`} className="text-body-lg text-muted">
+              <p
+                key={`${section.heading}-p-${paragraphIndex}`}
+                className={paragraph.startsWith('Please note')
+                  ? 'border-l-4 border-gold bg-ivory px-4 py-3 text-body-lg font-medium text-navy-deep'
+                  : 'text-body-lg text-muted'}
+              >
                 {paragraph}
               </p>
             ))}
@@ -24,7 +29,14 @@ function InfoSection({ section, index }) {
             {section.bullets && (
               <ul className="list-disc space-y-2 pl-6 text-body-lg text-muted">
                 {section.bullets.map((item, bulletIndex) => (
-                  <li key={`${section.heading}-bullet-${bulletIndex}`}>{item}</li>
+                  <li
+                    key={`${section.heading}-bullet-${bulletIndex}`}
+                    className={item.startsWith('Please note')
+                      ? 'border-l-4 border-gold bg-ivory px-4 py-3 font-medium text-navy-deep'
+                      : undefined}
+                  >
+                    {item}
+                  </li>
                 ))}
               </ul>
             )}
@@ -62,7 +74,12 @@ function InfoSection({ section, index }) {
 
             {section.closingParagraphs &&
               section.closingParagraphs.map((paragraph, paragraphIndex) => (
-                <p key={`${section.heading}-closing-${paragraphIndex}`} className="text-body-lg text-muted">
+                <p
+                  key={`${section.heading}-closing-${paragraphIndex}`}
+                  className={paragraph.startsWith('Please note')
+                    ? 'border-l-4 border-gold bg-ivory px-4 py-3 text-body-lg font-medium text-navy-deep'
+                    : 'text-body-lg text-muted'}
+                >
                   {paragraph}
                 </p>
               ))}

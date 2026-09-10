@@ -11,7 +11,7 @@ export default function EducationCredentials() {
   const credentialRows = [credentials.boardCertification, credentials.research];
 
   return (
-    <Section spacing="lg" background="warm">
+    <Section spacing="lg" background="sage-soft">
       <motion.div
         initial={shouldReduceMotion ? false : 'hidden'}
         whileInView="visible"

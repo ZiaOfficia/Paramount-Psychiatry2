@@ -9,7 +9,7 @@ export default function DrHero() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <Section spacing="xl" background="ivory" className="relative overflow-hidden">
+    <Section spacing="xl" background="warm" className="relative overflow-hidden">
       <div
         className="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-[58%_42%_36%_64%/60%_38%_62%_40%] bg-sage-soft opacity-70"
         aria-hidden="true"
