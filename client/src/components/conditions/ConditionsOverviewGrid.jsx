@@ -16,12 +16,7 @@ function AreaRow({ category, open, onToggle }) {
   const panelId = `areas-${category.slug}-panel`;
 
   return (
-    <div
-      className={cn(
-        'relative bg-white',
-        !open && 'border-b border-border',
-      )}
-    >
+    <div className={cn('overflow-hidden border-b border-border bg-white last:border-b-0')}>
       <div className="flex w-full items-center justify-between gap-3 px-5 py-4">
         <span className="text-h4 text-navy-deep">{category.title}</span>
         <button
@@ -40,26 +35,28 @@ function AreaRow({ category, open, onToggle }) {
         </button>
       </div>
 
-      <AnimatePresence>
-        {open && areas.length > 0 && (
-          <motion.div
-            id={panelId}
-            initial={shouldReduceMotion ? false : { height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={shouldReduceMotion ? { height: 0, opacity: 0 } : { height: 0, opacity: 0 }}
-            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute left-0 right-0 top-full z-40 max-h-80 overflow-y-auto border-b border-border bg-inherit px-5 pb-4 pt-1 shadow-[0_8px_16px_-6px_rgba(23,50,77,0.18),6px_6px_12px_-8px_rgba(23,50,77,0.12),-6px_6px_12px_-8px_rgba(23,50,77,0.12)]"
-          >
-            <ul className="flex flex-col">
-              {areas.map((area) => (
-                <li key={area.title}>
-                  <span className="block py-1 text-body-sm text-charcoal">{area.title}</span>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
+      <div
+        id={panelId}
+        role="region"
+        className={cn(
+          'grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-calm',
+          open ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0',
         )}
-      </AnimatePresence>
+      >
+        <div className="min-h-0">
+          <div className="px-5 pb-5 pt-2">
+            {areas.length > 0 ? (
+              <ul className="ml-5 flex list-disc flex-col gap-2 py-1 text-charcoal">
+                {areas.map((area) => (
+                  <li key={area.title} className="text-body-sm leading-relaxed">
+                    {area.title}
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

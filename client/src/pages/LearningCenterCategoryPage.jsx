@@ -102,6 +102,49 @@ export default function LearningCenterCategoryPage() {
         eyebrow="Mental Health Learning Center"
         title={category.title}
         intro="Frequently asked questions and practical information from Paramount Psychiatry."
+        sketch={
+          category.slug === 'why-paramount-psychiatry'
+            ? '/images/MentalHealth/mh3.png'
+            : category.slug === 'choosing-the-right-mental-health-professional'
+              ? '/images/MentalHealth/mh4.png'
+              : category.slug === 'new-patients-first-appointment'
+                ? '/images/MentalHealth/mh6.png'
+                : category.slug === 'psychiatric-diagnosis-treatment'
+                  ? '/images/MentalHealth/mh7.png'
+                  : category.slug === 'medication-management-prescription-questions'
+                    ? '/images/MentalHealth/mh8.png'
+                    : category.slug === 'anxiety-stress-panic-disorders'
+                      ? '/images/MentalHealth/mh9.png'
+                      : category.slug === 'depression-mood-disorders'
+                        ? '/images/MentalHealth/mh3.png'
+                        : category.slug === 'adhd-attention-deficit-hyperactivity-disorder'
+                          ? '/images/MentalHealth/mh4.png'
+                          : category.slug === 'womens-mental-health-hormone-related-mood-disorders'
+                            ? '/images/MentalHealth/mh5.png'
+                            : category.slug === 'geriatric-psychiatry-memory-care-healthy-aging'
+                              ? '/images/MentalHealth/mh6.png'
+                              : category.slug === 'sleep-disorders-insomnia'
+                                ? '/images/MentalHealth/mh7.png'
+                                : category.slug === 'trauma-ptsd-burnout-life-transitions'
+                                  ? '/images/MentalHealth/mh8.png'
+                                  : undefined
+        }
+        sketchClassName={
+          category.slug === 'why-paramount-psychiatry'
+            || category.slug === 'choosing-the-right-mental-health-professional'
+            || category.slug === 'new-patients-first-appointment'
+            || category.slug === 'psychiatric-diagnosis-treatment'
+            || category.slug === 'medication-management-prescription-questions'
+            || category.slug === 'anxiety-stress-panic-disorders'
+            || category.slug === 'depression-mood-disorders'
+            || category.slug === 'adhd-attention-deficit-hyperactivity-disorder'
+            || category.slug === 'womens-mental-health-hormone-related-mood-disorders'
+            || category.slug === 'geriatric-psychiatry-memory-care-healthy-aging'
+            || category.slug === 'sleep-disorders-insomnia'
+            || category.slug === 'trauma-ptsd-burnout-life-transitions'
+            ? 'max-w-md'
+            : 'max-w-sm'
+        }
         crumbs={[
           { label: 'Home', path: '/' },
           { label: 'Mental Health Learning Center', path: '/learning-center' },
