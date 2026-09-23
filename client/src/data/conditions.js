@@ -32,7 +32,7 @@ const EYEBROW = 'Conditions We Treat';
 // evidence-based, collaborative care, with no outcome guarantees. A handful
 // of entries override this where the source material calls for specific
 // language (e.g. Medical Psychiatry's coordination-of-care note).
-const defaultApproach = {
+export const defaultApproach = {
   heading: 'The Paramount Approach',
   paragraphs: [
     "Care begins with a comprehensive evaluation and continues as a collaborative process. Treatment plans are individualized and grounded in evidence-based psychiatric practice, and are reviewed and adjusted over time in partnership with each patient as needs change.",
