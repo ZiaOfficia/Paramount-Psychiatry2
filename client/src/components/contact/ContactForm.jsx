@@ -3,8 +3,9 @@ import FormField from '../appointment/FormField';
 import FormStatus from '../appointment/FormStatus';
 import Button from '../ui/Button';
 import site from '../../data/site';
+import { submitForm } from '../../lib/submitForm';
 
-const emptyValues = { name: '', email: '', phone: '', message: '' };
+const emptyValues = { name: '', email: '', phone: '', message: '', website: '' };
 
 const MESSAGE_MAX = 800;
 
@@ -34,34 +35,19 @@ function validate(values) {
   return errors;
 }
 
-function buildMailto(values) {
-  const subject = `Website message — ${values.name.trim()}`;
-  const lines = [
-    `Name: ${values.name.trim()}`,
-    `Email: ${values.email.trim()}`,
-    values.phone.trim() && `Phone: ${values.phone.trim()}`,
-    '',
-    'Message:',
-    values.message.trim(),
-  ].filter(Boolean);
-
-  return `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
-}
-
-// Same real, working mechanism as <AppointmentForm />: there is no
-// backend/email service wired up (the Express API only exposes
-// /api/health), so submitting composes a mailto: link and hands off to the
-// visitor's email client rather than faking a server round-trip.
+// Same mechanism as <AppointmentForm />: submissions go to the Google Apps
+// Script web app, which saves them to the practice's sheet and emails them
+// to the office inbox.
 export default function ContactForm() {
   const [values, setValues] = useState(emptyValues);
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState(null); // null | 'submitting' | 'success' | 'error'
+  const [status, setStatus] = useState(null); // null | 'submitting' | 'success' | 'error' | 'failed'
 
   function update(field) {
     return (e) => setValues((prev) => ({ ...prev, [field]: e.target.value }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const validationErrors = validate(values);
     setErrors(validationErrors);
@@ -76,8 +62,12 @@ export default function ContactForm() {
     }
 
     setStatus('submitting');
-    window.location.href = buildMailto(values);
-    window.setTimeout(() => setStatus('success'), 200);
+    try {
+      await submitForm('contact', values);
+      setStatus('success');
+    } catch {
+      setStatus('failed');
+    }
   }
 
   const isSubmitting = status === 'submitting';
@@ -85,14 +75,10 @@ export default function ContactForm() {
   if (status === 'success') {
     return (
       <FormStatus status="success">
-        <p className="font-medium text-navy-deep">Your email app should now be open with your message ready to send.</p>
+        <p className="font-medium text-navy-deep">Message sent, and someone will contact you soon.</p>
         <p className="mt-1">
-          Please review it and hit send from there to reach us at {site.email}. If your email app didn’t open automatically,
-          you can email us directly at{' '}
-          <a href={`mailto:${site.email}`} className="underline underline-offset-2 hover:text-navy">
-            {site.email}
-          </a>{' '}
-          or call {site.phone}.
+          If you don’t hear from us in the next 24-48 hours please email us at{' '}
+          <a href="mailto:info@paramoutpsy.com" className="underline">info@paramoutpsy.com</a>
         </p>
       </FormStatus>
     );
@@ -103,6 +89,27 @@ export default function ContactForm() {
       {status === 'error' && (
         <FormStatus status="error">Please correct the highlighted field{Object.keys(errors).length > 1 ? 's' : ''} below.</FormStatus>
       )}
+      {status === 'failed' && (
+        <FormStatus status="error">
+          Sorry, your message couldn’t be sent. Please try again, email us at{' '}
+          <a href={`mailto:${site.email}`} className="underline underline-offset-2">
+            {site.email}
+          </a>
+          , or call {site.phone}.
+        </FormStatus>
+      )}
+
+      {/* Honeypot for spam bots — hidden from people and assistive tech. */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+        value={values.website}
+        onChange={update('website')}
+      />
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <FormField id="name" label="Name" required value={values.name} onChange={update('name')} error={errors.name} autoComplete="name" />
@@ -142,14 +149,13 @@ export default function ContactForm() {
       />
 
       <p className="text-caption text-muted max-w-xl">
-        This form is not for emergencies. Sending will open your email app with your message addressed to Paramount
-        Psychiatry; nothing is transmitted directly through this website. We use the information you provide only to
-        respond to your request.
+        This form is not for emergencies. Your message is sent directly to Paramount Psychiatry, and we use the
+        information you provide only to respond to your request.
       </p>
 
       <div>
         <Button type="submit" size="lg" disabled={isSubmitting} aria-busy={isSubmitting}>
-          {isSubmitting ? 'Preparing your message…' : 'Send Message'}
+          {isSubmitting ? 'Sending…' : 'Send Message'}
         </Button>
       </div>
     </form>

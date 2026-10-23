@@ -3,6 +3,7 @@ import FormField from './FormField';
 import FormStatus from './FormStatus';
 import Button from '../ui/Button';
 import site from '../../data/site';
+import { submitForm } from '../../lib/submitForm';
 
 const contactMethodOptions = [
   { value: '', label: 'Select one…' },
@@ -34,6 +35,7 @@ const emptyValues = {
   reason: '',
   timing: '',
   message: '',
+  website: '',
 };
 
 const MESSAGE_MAX = 800;
@@ -61,40 +63,19 @@ function validate(values) {
   return errors;
 }
 
-function buildMailto(values) {
-  const subject = `Appointment request — ${values.name.trim()}`;
-  const lines = [
-    `Name: ${values.name.trim()}`,
-    `Email: ${values.email.trim()}`,
-    values.phone.trim() && `Phone: ${values.phone.trim()}`,
-    `Preferred contact method: ${values.contactMethod}`,
-    `Reason for contacting: ${values.reason}`,
-    values.timing && `Preferred appointment timing: ${values.timing}`,
-    '',
-    'Message:',
-    values.message.trim() || '(none provided)',
-  ].filter(Boolean);
-
-  return `mailto:${site.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
-}
-
-// A real appointment-request form. There is no backend/email service wired
-// up yet (the project's Express API only exposes /api/health), so instead of
-// faking a server submission, this composes the patient's request into a
-// mailto: link addressed to the practice and hands off to their email
-// client — a real, working mechanism, clearly labeled as such. The UI never
-// claims the office has received anything; it only confirms the message was
-// prepared and handed to the user's email app.
+// Appointment-request form. Submissions go to the Google Apps Script web app
+// (apps-script/Code.gs), which saves them to the practice's Google Sheet and
+// emails them to the office inbox.
 export default function AppointmentForm() {
   const [values, setValues] = useState(emptyValues);
   const [errors, setErrors] = useState({});
-  const [status, setStatus] = useState(null); // null | 'submitting' | 'success' | 'error'
+  const [status, setStatus] = useState(null); // null | 'submitting' | 'success' | 'error' | 'failed'
 
   function update(field) {
     return (e) => setValues((prev) => ({ ...prev, [field]: e.target.value }));
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const validationErrors = validate(values);
     setErrors(validationErrors);
@@ -109,10 +90,12 @@ export default function AppointmentForm() {
     }
 
     setStatus('submitting');
-    // Hand off to the user's email client — this is the real submission
-    // mechanism, not a simulated delay.
-    window.location.href = buildMailto(values);
-    window.setTimeout(() => setStatus('success'), 200);
+    try {
+      await submitForm('appointment', values);
+      setStatus('success');
+    } catch {
+      setStatus('failed');
+    }
   }
 
   const isSubmitting = status === 'submitting';
@@ -120,15 +103,8 @@ export default function AppointmentForm() {
   if (status === 'success') {
     return (
       <FormStatus status="success">
-        <p className="font-medium text-navy-deep">Your email app should now be open with your message ready to send.</p>
-        <p className="mt-1">
-          Please review it and hit send from there to reach us at {site.email}. If your email app didn’t open automatically,
-          you can email us directly at{' '}
-          <a href={`mailto:${site.email}`} className="underline underline-offset-2 hover:text-navy">
-            {site.email}
-          </a>{' '}
-          or call {site.phone}.
-        </p>
+        <p className="font-medium text-navy-deep">Thank you — your request has been sent.</p>
+        <p className="mt-1">Our office will contact you soon using your preferred method. If it’s urgent, please call {site.phone}.</p>
       </FormStatus>
     );
   }
@@ -138,6 +114,27 @@ export default function AppointmentForm() {
       {status === 'error' && (
         <FormStatus status="error">Please correct the highlighted field{Object.keys(errors).length > 1 ? 's' : ''} below.</FormStatus>
       )}
+      {status === 'failed' && (
+        <FormStatus status="error">
+          Sorry, your request couldn’t be sent. Please try again, email us at{' '}
+          <a href={`mailto:${site.email}`} className="underline underline-offset-2">
+            {site.email}
+          </a>
+          , or call {site.phone}.
+        </FormStatus>
+      )}
+
+      {/* Honeypot for spam bots — hidden from people and assistive tech. */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="hidden"
+        value={values.website}
+        onChange={update('website')}
+      />
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <FormField id="name" label="Name" required value={values.name} onChange={update('name')} error={errors.name} autoComplete="name" />
@@ -200,14 +197,13 @@ export default function AppointmentForm() {
       />
 
       <p className="text-caption text-muted max-w-xl">
-        This form is not for emergencies — see below for emergency information. Sending will open your email app with your
-        message addressed to Paramount Psychiatry; nothing is transmitted directly through this website. We use the
-        information you provide only to respond to your request.
+        This form is not for emergencies — see below for emergency information. Your request is sent directly to
+        Paramount Psychiatry, and we use the information you provide only to respond to your request.
       </p>
 
       <div>
         <Button type="submit" size="lg" disabled={isSubmitting} aria-busy={isSubmitting}>
-          {isSubmitting ? 'Preparing your message…' : 'Send Request via Email'}
+          {isSubmitting ? 'Sending…' : 'Send Request'}
         </Button>
       </div>
     </form>

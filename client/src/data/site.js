@@ -13,6 +13,10 @@ const site = {
   },
   appointmentUrl:
     'https://care.headway.co/providers/pooja-tandon-2?utm_source=pem&utm_medium=direct_link&utm_campaign=162035',
+  // Google Apps Script web app (apps-script/Code.gs): saves form submissions to
+  // the Google Sheet and emails them to `email` above.
+  formEndpoint:
+    'https://script.google.com/macros/s/AKfycbyPsygeRFAxXLeJQEeDo2WEe94Np_nNfLWb4gpgP3PIZKFIkcfJ1z_dUgdhqFKrZVxP/exec',
 };
 
 export default site;
