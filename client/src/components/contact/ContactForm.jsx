@@ -78,7 +78,7 @@ export default function ContactForm() {
         <p className="font-medium text-navy-deep">Message sent, and someone will contact you soon.</p>
         <p className="mt-1">
           If you don’t hear from us in the next 24-48 hours please email us at{' '}
-          <a href="mailto:info@paramoutpsy.com" className="underline">info@paramoutpsy.com</a>
+          <a href="mailto:info@paramountpsychiatrynj.com" className="underline">info@paramountpsychiatrynj.com</a>
         </p>
       </FormStatus>
     );
